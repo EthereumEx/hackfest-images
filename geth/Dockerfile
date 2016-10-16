@@ -1,4 +1,4 @@
-FROM ethereum/client-go
+FROM geth-dev
 
 ENTRYPOINT ["/bin/bash"]
 
