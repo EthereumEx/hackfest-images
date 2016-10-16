@@ -5,6 +5,7 @@ RUN apt-get install -y vim
 RUN apt-get install -y net-tools
 RUN apt-get -y install npm
 RUN ln -s /usr/bin/nodejs /usr/bin/node
+RUN apt-get -y install git
 
 ENTRYPOINT ["/bin/bash"]
 
