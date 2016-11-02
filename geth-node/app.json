@@ -1,0 +1,34 @@
+[
+  {
+    "name"              : "gethNode",
+    "script"            : "/home/geth/runGeth.sh",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"        : false,
+    "watch"             : true,
+    "max_restarts"      : 0,
+    "exec_interpreter"  : "/bin/bash",
+    "exec_mode"         : "fork_mode",
+    "env":
+    {
+      "VERBOSITY"       : 2
+    }
+  },
+  {
+    "name"              : "ethStatsApi",
+    "script"            : "/usr/bin/ethStatsApi/app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"        : false,
+    "watch"             : true,
+    "max_restarts"      : 0,
+    "exec_interpreter"  : "node",
+    "exec_mode"         : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"        : "production",
+      "RPC_HOST"        : "localhost",
+      "RPC_PORT"        : "8545",
+      "LISTENING_PORT"  : "30303",
+      "VERBOSITY"       : 2
+    }
+  }
+]
