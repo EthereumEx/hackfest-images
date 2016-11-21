@@ -5,7 +5,7 @@ DATADIR=/home/geth/.geth
 RPCPORT=8545
 RPCHOST=0.0.0.0
 GETHPORT=30303
-GETHMINE=
+GETHARGS=
 
 if [ -z "$NETWORKID" ]; then
   echo "No NETWORKID was supplied"
@@ -22,12 +22,12 @@ if [ -z "$NODE_NAME" ]; then
   exit 1
 fi
 
-if [ -z "$ENABLE_MINER" ]; then
+if [ "$ENABLE_MINER" ]; then
   if [ -z "$MINER_ADDRESS" ]; then
     echo "No MINER_ADDRESS was supplied"
     exit 1
   fi
-GETHARGS=--mine --etherbase $MINER_ADDRESS
+GETHARGS="--mine --etherbase $MINER_ADDRESS"
 fi
 
 if [ ! -d "$DATADIR/chaindata" ]; then
@@ -35,7 +35,7 @@ if [ ! -d "$DATADIR/chaindata" ]; then
 fi
 
 geth --datadir $DATADIR \
-        --identity $NODE_NAME
+        --identity $NODE_NAME \
         --rpc --rpcport $RPCPORT --rpcaddr $RPCHOST \
         --fast \
         --networkid $NETWORKID \
