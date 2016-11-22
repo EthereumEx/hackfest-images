@@ -28,8 +28,17 @@ if [ "$ENABLE_MINER" ]; then
     echo "No MINER_ADDRESS was supplied"
     exit 1
   fi
+
+  ping -c 15 127.0.0.1 > /dev/nul
+  BOOTNODES=
+  while [ -Z "$BOOTNODES" ]
+  do	
+BOOTNODES=$(curl $BOOTNODE_URL/enodes)
+  done
+
 GETHARGS="--mine --etherbase $MINER_ADDRESS"
 fi
+
 
 if [ "$BOOTNODES" ]; then
 GETHARGS=$GETHARGS --bootnodes $BOOTNODES
@@ -38,6 +47,9 @@ fi
 if [ ! -d "$DATADIR/chaindata" ]; then
   geth --datadir $DATADIR init $GENESIS
 fi
+
+echo "BOOTNODES"
+echo $BOOTNODES
 
 geth --datadir $DATADIR \
         --identity $NODE_NAME \

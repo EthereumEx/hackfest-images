@@ -6,6 +6,7 @@ RUN apt-get install -y net-tools
 RUN apt-get -y install npm
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN apt-get -y install git
+RUN apt-get -y install curl
 
 ENTRYPOINT ["/bin/bash"]
 
