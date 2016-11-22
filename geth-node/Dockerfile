@@ -1,8 +1,11 @@
 FROM ethereumex/geth-stats
 
 RUN npm install -g pm2
-
 RUN useradd -ms /bin/bash geth
+RUN git clone https://github.com/EthereumEx/bootnode-registrar.git /usr/lib/bootnode
+WORKDIR /usr/lib/bootnode
+RUN git checkout dev/ericmai
+RUN npm install
 
 USER geth
 WORKDIR /home/geth

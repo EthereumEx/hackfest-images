@@ -6,6 +6,7 @@ RPCPORT=8545
 RPCHOST=0.0.0.0
 GETHPORT=30303
 GETHARGS=
+BOOTNODES=$(curl $BOOTNODE_URL/enodes)
 
 if [ -z "$NETWORKID" ]; then
   echo "No NETWORKID was supplied"
@@ -28,6 +29,10 @@ if [ "$ENABLE_MINER" ]; then
     exit 1
   fi
 GETHARGS="--mine --etherbase $MINER_ADDRESS"
+fi
+
+if [ "$BOOTNODES" ]; then
+GETHARGS=$GETHARGS --bootnodes $BOOTNODES
 fi
 
 if [ ! -d "$DATADIR/chaindata" ]; then
