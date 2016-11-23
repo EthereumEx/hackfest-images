@@ -29,9 +29,7 @@ if [ "$ENABLE_MINER" ]; then
     exit 1
   fi
 
-  ping -c 15 127.0.0.1 > /dev/nul
-  BOOTNODES=
-  while [ -Z "$BOOTNODES" ]
+  while [ -z "$BOOTNODES" ]
   do	
 BOOTNODES=$(curl $BOOTNODE_URL/enodes)
   done
@@ -41,7 +39,8 @@ fi
 
 
 if [ "$BOOTNODES" ]; then
-GETHARGS=$GETHARGS --bootnodes $BOOTNODES
+echo "Adding bootnodes"
+GETHARGS="$GETHARGS --bootnodes $BOOTNODES"
 fi
 
 if [ ! -d "$DATADIR/chaindata" ]; then
@@ -50,6 +49,7 @@ fi
 
 echo "BOOTNODES"
 echo $BOOTNODES
+echo $GETHARGS
 
 geth --datadir $DATADIR \
         --identity $NODE_NAME \
