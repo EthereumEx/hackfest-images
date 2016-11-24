@@ -1,21 +1,5 @@
 [
   {
-    "name"              : "ethStatsDashboard",
-    "script"            : "/home/dashboard/eth-stats/app.js",
-    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
-    "merge_logs"        : false,
-    "watch"             : true,
-    "max_restarts"      : 0,
-    "exec_interpreter"  : "node",
-    "exec_mode"         : "fork_mode",
-    "env":
-    {
-      "PORT"            : 3000,
-      "NODE_ENV"        : "production",
-      "VERBOSITY"       : 2
-    }
-  },
-  {
     "name"              : "bootNodeRegistrar",
     "script"            : "/home/dashboard/bootnode/app.js",
     "log_date_format"   : "YYYY-MM-DD HH:mm Z",

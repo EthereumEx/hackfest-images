@@ -27,5 +27,6 @@ RUN npm install
 
 WORKDIR /home/dashboard
 ADD app.json /home/dashboard/app.json
+ADD run.sh /home/dashboard/run.sh
 
-ENTRYPOINT ["pm2", "start", "--no-daemon", "app.json"]
+ENTRYPOINT ["sh", "run.sh"]
