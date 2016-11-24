@@ -32,22 +32,6 @@
     }
   },
   {
-    "name"              : "bootRegistrar",
-    "script"            : "/usr/lib/bootnode/app.js",
-    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
-    "merge_logs"        : false,
-    "watch"             : true,
-    "max_restarts"      : 0,
-    "exec_interpreter"  : "node",
-    "exec_mode"         : "fork_mode",
-    "env":
-    {
-      "NODE_ENV"        : "production",
-      "PORT"            : "3001",
-      "VERBOSITY"       : 2
-    }
-  },
-  {
     "name"              : "bootNodeReporter",
     "script"            : "/usr/lib/bootnode/client.js",
     "log_date_format"   : "YYYY-MM-DD HH:mm Z",
