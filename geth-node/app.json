@@ -15,7 +15,7 @@
   },
   {
     "name"              : "ethStatsApi",
-    "script"            : "/usr/bin/ethStatsApi/app.js",
+    "script"            : "/home/geth/lib/ethStatsApi/app.js",
     "log_date_format"   : "YYYY-MM-DD HH:mm Z",
     "merge_logs"        : false,
     "watch"             : true,
@@ -33,7 +33,7 @@
   },
   {
     "name"              : "bootNodeReporter",
-    "script"            : "/usr/lib/bootnode/client.js",
+    "script"            : "/home/geth/lib/bootnode/client.js",
     "log_date_format"   : "YYYY-MM-DD HH:mm Z",
     "merge_logs"        : false,
     "watch"             : true,

@@ -1,13 +1,22 @@
-FROM ethereumex/geth-stats
+FROM ethereumex/geth-dev
 
-RUN npm install -g pm2
 RUN useradd -ms /bin/bash geth
-RUN git clone https://github.com/EthereumEx/bootnode-registrar.git /usr/lib/bootnode
-WORKDIR /usr/lib/bootnode
+
+USER geth
+RUN pm2 install pm2-logrotate
+RUN pm2 set pm2-logrotate:max_size 100M
+RUN pm2 set pm2-logrotate:compress true
+RUN pm2 set pm2-logrotate:rotateInterval '23 * * *'
+
+RUN git clone https://github.com/EthereumEx/bootnode-registrar.git /home/geth/lib/bootnode
+WORKDIR /home/geth/lib/bootnode
 RUN git checkout dev/ericmai
 RUN npm install
 
-USER geth
+RUN git clone https://github.com/EthereumEx/eth-net-intelligence-api.git /home/geth/lib/ethStatsApi
+WORKDIR /home/geth/lib/ethStatsApi
+RUN npm install
+
 WORKDIR /home/geth
 ADD app.json /home/geth/app.json
 ADD runGeth.sh /home/geth/runGeth.sh
