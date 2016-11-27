@@ -1,3 +1,5 @@
 #!/bin/bash
 
-docker build -t ethereumex/$1 $1/.
+ORG=ethereumex
+docker build -t $ORG/$1 $1/.
+docker push $ORG/$1
