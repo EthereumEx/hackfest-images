@@ -6,7 +6,8 @@ RPCPORT=8545
 RPCHOST=0.0.0.0
 GETHPORT=30303
 GETHARGS=
-BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL/enodes)
+BOOTNODE_URL="$BOOTNODE_URL/enodes?network=$BOOTNODE_NETWORK"
+BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
 
 if [ -z "$NETWORKID" ]; then
   echo "No NETWORKID was supplied"
@@ -31,7 +32,7 @@ if [ "$ENABLE_MINER" ]; then
 
   while [ -z "$BOOTNODES" ]
   do	
-    BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL/enodes)
+    BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
   done
 
   GETHARGS="--mine --etherbase $MINER_ADDRESS"
@@ -58,6 +59,5 @@ geth --datadir $DATADIR \
         --rpc --rpcport $RPCPORT --rpcaddr $RPCHOST \
         --networkid $NETWORKID \
         --port $GETHPORT \
-        --nodiscover \
         $GETHARGS 2>&1
 
