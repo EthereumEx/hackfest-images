@@ -31,16 +31,18 @@ if [ "$ENABLE_MINER" ]; then
 
   while [ -z "$BOOTNODES" ]
   do	
-BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL/enodes)
+    BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL/enodes)
   done
 
-GETHARGS="--mine --etherbase $MINER_ADDRESS"
+  GETHARGS="--mine --etherbase $MINER_ADDRESS"
+else
+  GETHARGS="--fast"
 fi
 
 
 if [ "$BOOTNODES" ]; then
-echo "Adding bootnodes"
-GETHARGS="$GETHARGS --bootnodes $BOOTNODES"
+  echo "Adding bootnodes"
+  GETHARGS="$GETHARGS --bootnodes $BOOTNODES"
 fi
 
 if [ ! -d "$DATADIR/chaindata" ]; then
@@ -56,5 +58,6 @@ geth --datadir $DATADIR \
         --rpc --rpcport $RPCPORT --rpcaddr $RPCHOST \
         --networkid $NETWORKID \
         --port $GETHPORT \
+        --nodiscover \
         $GETHARGS 2>&1
 
