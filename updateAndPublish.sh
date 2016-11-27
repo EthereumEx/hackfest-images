@@ -2,6 +2,7 @@
 
 docker pull ubuntu
 docker pull ethereume/client-go
+sh buildAndPublish.sh node
 sh buildAndPublish.sh geth-dev
 sh buildAndPublish.sh geth-stats
 sh buildAndPublish.sh geth-node
