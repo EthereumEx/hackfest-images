@@ -2,5 +2,5 @@
 
 cd /home/dashboard
 pm2 start app.json
-cd eth-stats
+cd /var/lib/eth-netstats
 npm start

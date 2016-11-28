@@ -1,7 +1,7 @@
 [
   {
     "name"              : "bootNodeRegistrar",
-    "script"            : "/home/dashboard/bootnode/app.js",
+    "script"            : "/var/lib/bootnode/app.js",
     "log_date_format"   : "YYYY-MM-DD HH:mm Z",
     "merge_logs"        : false,
     "watch"             : true,
