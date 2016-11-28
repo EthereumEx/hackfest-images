@@ -1,4 +1,4 @@
-FROM ethereum/client-go:release-1.5
+FROM ethereum/client-go
 RUN apt-get update
 RUN apt-get install -y apt-utils
 RUN apt-get install -y vim
