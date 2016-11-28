@@ -10,7 +10,6 @@ RUN pm2 set pm2-logrotate:rotateInterval '23 * * *'
 
 RUN git clone https://github.com/EthereumEx/bootnode-registrar.git /home/geth/lib/bootnode
 WORKDIR /home/geth/lib/bootnode
-RUN git checkout dev/ericmai
 RUN npm install
 
 RUN git clone https://github.com/EthereumEx/eth-net-intelligence-api.git /home/geth/lib/ethStatsApi
