@@ -37,6 +37,10 @@ if [ "$ENABLE_MINER" ]; then
   done
 
   GETHARGS="--mine --etherbase $MINER_ADDRESS"
+
+  if [ "$MINER_THREADS" ]; then
+    GETHARGS="$GETHARGS --minerthreads $MINER_THREADS"
+  fi
 else
   GETHARGS="--fast"
 fi
