@@ -6,8 +6,9 @@ RPCPORT=8545
 RPCHOST=0.0.0.0
 GETHPORT=30303
 GETHARGS=
-BOOTNODE_URL="$BOOTNODE_URL/enodes?network=$BOOTNODE_NETWORK"
+BOOTNODE_URL="$BOOTNODE_URL/staticenodes?network=$BOOTNODE_NETWORK"
 BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
+STATSARGS="--ethstats \"$NODE_NAME:$WS_SECRET@$WS_SERVER\""
 
 if [ -z "$NETWORKID" ]; then
   echo "No NETWORKID was supplied"
@@ -43,7 +44,8 @@ fi
 
 if [ "$BOOTNODES" ]; then
   echo "Adding bootnodes"
-  GETHARGS="$GETHARGS --bootnodes $BOOTNODES"
+  #GETHARGS="$GETHARGS --bootnodes $BOOTNODES"
+  echo $BOOTNODES > $DATADIR/static-nodes.json
 fi
 
 if [ ! -d "$DATADIR/chaindata" ]; then
@@ -56,6 +58,7 @@ echo $GETHARGS
 
 geth --datadir $DATADIR \
         --identity $NODE_NAME \
+        --nodiscover \
         --rpc --rpcport $RPCPORT --rpcaddr $RPCHOST \
         --networkid $NETWORKID \
         --port $GETHPORT \
