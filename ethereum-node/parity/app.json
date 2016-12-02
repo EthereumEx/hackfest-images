@@ -1,7 +1,7 @@
 [
   {
-    "name"              : "gethNode",
-    "script"            : "/home/eth-node/runGeth.sh",
+    "name"              : "ethNode",
+    "script"            : "/home/eth-node/runNode.sh",
     "log_date_format"   : "YYYY-MM-DD HH:mm Z",
     "merge_logs"        : false,
     "watch"             : true,
@@ -44,7 +44,7 @@
     {
       "NODE_ENV"        : "production",
       "VERBOSITY"       : 2,
-      "ETH_IPC_PATH"	: "/home/eth-node/.geth/geth.ipc"
+      "ETH_IPC_PATH"	: "/home/eth-node/.ethdata/geth.ipc"
     }
   }
 ]

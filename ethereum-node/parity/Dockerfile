@@ -1,27 +1,17 @@
-FROM ethcore/parity:stable-release
+FROM ethereumex/parity-base:latest
 
-RUN useradd -ms /bin/bash geth
-RUN ln -s /build/parity/target/release/parity /usr/bin/parity
-#USER geth
-#WORKDIR /home/geth
-#RUN pm2 install pm2-logrotate
-#RUN pm2 set pm2-logrotate:max_size 100M
-#RUN pm2 set pm2-logrotate:compress true
-#RUN pm2 set pm2-logrotate:rotateInterval '23 * * *'
+WORKDIR /home/eth-node/lib/bootnode
+RUN git pull
+RUN git reset --hard master
+RUN npm install
 
-#RUN git clone https://github.com/EthereumEx/bootnode-registrar.git /home/geth/lib/bootnode
-#WORKDIR /home/geth/lib/bootnode
-#RUN npm install
+WORKDIR /home/eth-node/lib/ethStatsApi
+RUN git pull
+RUN git reset --hard master
+RUN npm install
 
-#RUN git clone https://github.com/EthereumEx/eth-net-intelligence-api.git /home/geth/lib/ethStatsApi
-#WORKDIR /home/geth/lib/ethStatsApi
-#RUN npm install
+WORKDIR /home/eth-node
+ADD app.json /home/eth-node/app.json
+ADD runParity.sh /home/eth-node/runNode.sh
 
-#WORKDIR /home/geth
-#ADD app.json /home/geth/app.json
-#ADD runGeth.sh /home/geth/runGeth.sh
-
-#ENTRYPOINT ["pm2", "start", "--no-daemon", "app.json"]
-ENTRYPOINT ["/bin/bash"]
-
-
+ENTRYPOINT ["pm2", "start", "--no-daemon", "app.json"]

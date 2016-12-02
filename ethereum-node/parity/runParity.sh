@@ -6,9 +6,8 @@ RPCPORT=8545
 RPCHOST=0.0.0.0
 ETHPORT=30303
 ETHARGS=
-BOOTNODE_URL="$BOOTNODE_URL/paritynodes?network=$BOOTNODE_NETWORK"
+BOOTNODE_URL="$BOOTNODE_URL/enodes?network=$BOOTNODE_NETWORK"
 BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
-STATSARGS="--ethstats \"$NODE_NAME:$WS_SECRET@$WS_SERVER\""
 
 if [ -z "$NETWORKID" ]; then
   echo "No NETWORKID was supplied"
@@ -33,7 +32,7 @@ fi
 
 if [ "$BOOTNODES" ]; then
   echo "Adding bootnodes"
-  echo $BOOTNODES > $DATADIR/static-nodes.json
+  ETHARGS=" $ETHARGS --bootnodes $BOOTNODES"
 fi
 
 echo "BOOTNODES"
@@ -43,9 +42,11 @@ echo $ETHARGS
 parity --db-path $DATADIR \
 	--chain $GENESIS \
         --identity $NODE_NAME \
-        --no-discover \
-        --jsonrpc-port $RPCPORT --jsonrpc-interface $RPCHOST \
+        --no-discovery \
+	--ipc-path $DATADIR/geth.ipc \
+        --jsonrpc-port $RPCPORT --jsonrpc-interface $RPCHOST --jsonrpc-hosts all  \
         --network-id $NETWORKID \
         --port $ETHPORT \
+        --logging debug \
         $ETHARGS 2>&1
 

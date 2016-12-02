@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GENESIS=/home/geth/genesis.json
-DATADIR=/home/geth/.geth
+GENESIS=/home/eth-node/genesis.json
+DATADIR=/home/eth-node/.geth
 RPCPORT=8545
 RPCHOST=0.0.0.0
 GETHPORT=30303
@@ -48,7 +48,7 @@ fi
 
 if [ "$BOOTNODES" ]; then
   echo "Adding bootnodes"
-  #GETHARGS="$GETHARGS --bootnodes $BOOTNODES"
+  mkdir -p $DATADIR
   echo $BOOTNODES > $DATADIR/static-nodes.json
 fi
 
