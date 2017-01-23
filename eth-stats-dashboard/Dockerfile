@@ -7,4 +7,4 @@ WORKDIR /home/dashboard
 ADD app.json /home/dashboard/app.json
 ADD run.sh /home/dashboard/run.sh
 
-ENTRYPOINT ["sh", "run.sh"]
+ENTRYPOINT ["/bin/bash", "run.sh"]

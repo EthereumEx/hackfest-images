@@ -1,4 +1,4 @@
-#1/bin/bash
+#!/bin/bash
 
 cd /home/dashboard
 pm2 start app.json
