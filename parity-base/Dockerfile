@@ -3,13 +3,15 @@ FROM ethcore/parity:beta-release
 RUN ln -s /build/parity/target/release/parity /usr/bin/parity
 
 RUN apt-get update
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+RUN apt-get update
 RUN apt-get install -y apt-utils
 RUN apt-get install -y vim
 RUN apt-get install -y net-tools
-RUN apt-get -y install npm
+RUN apt-get -y install nodejs npm
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN apt-get -y install git
-RUN apt-get -y install curl
 RUN apt-get -y install lsof
 RUN npm install -g pm2
 
