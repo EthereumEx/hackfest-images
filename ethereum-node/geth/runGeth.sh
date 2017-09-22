@@ -5,6 +5,7 @@ DATADIR=/home/eth-node/.geth
 RPCPORT=8545
 RPCHOST=0.0.0.0
 GETHPORT=30303
+GETHARGS=$EXTERNAL_ARGS
 BOOTNODE_URL="$BOOTNODE_URL/staticenodes?network=$BOOTNODE_NETWORK"
 BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
 STATSARGS="--ethstats \"$NODE_NAME:$WS_SECRET@$WS_SERVER\""
