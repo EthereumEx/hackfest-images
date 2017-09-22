@@ -5,7 +5,6 @@ DATADIR=/home/eth-node/.geth
 RPCPORT=8545
 RPCHOST=0.0.0.0
 GETHPORT=30303
-GETHARGS=
 BOOTNODE_URL="$BOOTNODE_URL/staticenodes?network=$BOOTNODE_NETWORK"
 BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
 STATSARGS="--ethstats \"$NODE_NAME:$WS_SECRET@$WS_SERVER\""
@@ -36,13 +35,13 @@ if [ "$ENABLE_MINER" ]; then
     BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
   done
 
-  GETHARGS="--mine --etherbase $MINER_ADDRESS"
+  GETHARGS="$GETHARGS --mine --etherbase $MINER_ADDRESS"
 
   if [ "$MINER_THREADS" ]; then
     GETHARGS="$GETHARGS --minerthreads $MINER_THREADS"
   fi
 else
-  GETHARGS="--fast"
+  GETHARGS="$GETHARGS --fast"
 fi
 
 
