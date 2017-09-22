@@ -53,14 +53,14 @@ if [ "$BOOTNODES" ]; then
 fi
 
 if [ ! -d "$DATADIR/chaindata" ]; then
-  geth --datadir $DATADIR init $GENESIS
+  /geth --datadir $DATADIR init $GENESIS
 fi
 
 echo "BOOTNODES"
 echo $BOOTNODES
 echo $GETHARGS
 
-geth --datadir $DATADIR \
+/geth --datadir $DATADIR \
         --identity $NODE_NAME \
         --nodiscover \
         --rpc --rpcport $RPCPORT --rpcaddr $RPCHOST \
