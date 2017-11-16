@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GENESIS=/home/eth-node/genesis.json
+TMPDIR=/home/eth-node/.tmp
 DATADIR=/home/eth-node/.geth
 RPCPORT=8545
 RPCHOST=0.0.0.0
@@ -25,6 +26,32 @@ if [ -z "$NODE_NAME" ]; then
   exit 1
 fi
 
+if [ ! -d "$DATADIR/chaindata" ]; then
+  geth --datadir $DATADIR init $GENESIS
+fi
+
+if [ "$SEALER_KEY" ]; then
+  if [ ! -d "$DATADIR/keystore" ]; then
+    rm -fr $DATADIR/keystore
+  fi
+
+  mkdir -p $TMPDIR
+  KEY_FILE="$TMPDIR/private.key"
+  PW_FILE="$TMPDIR/private.pwd"
+  echo "Initialize sealer"
+  echo $SEALER_KEY>$KEY_FILE
+
+  if [ ! -e $PW_FILE ]; then
+    echo $SEALER_PW>$PW_FILE
+    chmod 0600 $PW_FILE
+  fi
+
+  MINER_ADDRESS=$(geth --datadir $DATADIR --password $PW_FILE account import $KEY_FILE | cut -c 11-50)
+  ENABLE_MINER=1
+  rm $KEY_FILE
+  GETHARGS="${GETHARGS} --unlock "0" --password ${PW_FILE}"
+fi
+
 if [ "$ENABLE_MINER" ]; then
   if [ -z "$MINER_ADDRESS" ]; then
     echo "No MINER_ADDRESS was supplied"
@@ -32,7 +59,7 @@ if [ "$ENABLE_MINER" ]; then
   fi
 
   while [ -z "$BOOTNODES" ]
-  do	
+  do
     BOOTNODES=$(curl --connect-timeout 1 --retry 10  --retry-max-time 10 -f -s $BOOTNODE_URL)
   done
 
@@ -45,20 +72,12 @@ else
   GETHARGS="$GETHARGS --fast"
 fi
 
-
 if [ "$BOOTNODES" ]; then
   echo "Adding bootnodes"
   mkdir -p $DATADIR
   echo $BOOTNODES > $DATADIR/static-nodes.json
 fi
 
-if [ ! -d "$DATADIR/chaindata" ]; then
-  geth --datadir $DATADIR init $GENESIS
-fi
-
-echo "BOOTNODES"
-echo $BOOTNODES
-echo $GETHARGS
 
 geth --datadir $DATADIR \
         --identity $NODE_NAME \
@@ -67,4 +86,3 @@ geth --datadir $DATADIR \
         --networkid $NETWORKID \
         --port $GETHPORT \
         $GETHARGS 2>&1
-
