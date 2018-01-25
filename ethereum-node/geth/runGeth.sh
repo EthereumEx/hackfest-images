@@ -26,11 +26,11 @@ if [ -z "$NODE_NAME" ]; then
   exit 1
 fi
 
-if [ "${NETWORK_ID}" == "1"]; then
+if [ "${NETWORKID}" == "1" ]; then
     echo "Using Main Net"
-elif [ "${NETWORK_ID}" == "3" ]; then
+elif [ "${NETWORKID}" == "3" ]; then
     GETHARGS="${GETHARGS} --testnet"
-elif [ "${NETWORK_ID}" == "4" ]; then
+elif [ "${NETWORKID}" == "4" ]; then
     GETHARGS="${GETHARGS} --rinkeby"
 else
   if [ ! -d "$DATADIR/chaindata" ]; then
@@ -86,6 +86,12 @@ if [ "$BOOTNODES" ]; then
   mkdir -p $DATADIR
   echo $BOOTNODES > $DATADIR/static-nodes.json
 fi
+
+echo geth --datadir $DATADIR \
+        --identity $NODE_NAME \
+        --rpc --rpcport $RPCPORT --rpcaddr $RPCHOST \
+        --port $GETHPORT \
+        $GETHARGS
 
 geth --datadir $DATADIR \
         --identity $NODE_NAME \
