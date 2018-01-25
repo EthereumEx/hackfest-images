@@ -26,30 +26,39 @@ if [ -z "$NODE_NAME" ]; then
   exit 1
 fi
 
-if [ ! -d "$DATADIR/chaindata" ]; then
-  geth --datadir $DATADIR init $GENESIS
-fi
-
-if [ "$SEALER_KEY" ]; then
-  if [ ! -d "$DATADIR/keystore" ]; then
-    rm -fr $DATADIR/keystore
+if [ "${NETWORK_ID}" == "1"]; then
+    echo "Using Main Net"
+elif [ "${NETWORK_ID}" == "3" ]; then
+    GETHARGS="${GETHARGS} --testnet"
+elif [ "${NETWORK_ID}" == "4" ]; then
+    GETHARGS="${GETHARGS} --rinkeby"
+else
+  if [ ! -d "$DATADIR/chaindata" ]; then
+    geth --datadir $DATADIR init $GENESIS
   fi
+    GETHARGS="${GETHARGS} --nodiscover --networkid $NETWORKID"
 
-  mkdir -p $TMPDIR
-  KEY_FILE="$TMPDIR/private.key"
-  PW_FILE="$TMPDIR/private.pwd"
-  echo "Initialize sealer"
-  echo $SEALER_KEY>$KEY_FILE
+  if [ "$SEALER_KEY" ]; then
+    if [ ! -d "$DATADIR/keystore" ]; then
+      rm -fr $DATADIR/keystore
+    fi
 
-  if [ ! -e $PW_FILE ]; then
-    echo $SEALER_PW>$PW_FILE
-    chmod 0600 $PW_FILE
+    mkdir -p $TMPDIR
+    KEY_FILE="$TMPDIR/private.key"
+    PW_FILE="$TMPDIR/private.pwd"
+    echo "Initialize sealer"
+    echo $SEALER_KEY>$KEY_FILE
+
+    if [ ! -e $PW_FILE ]; then
+      echo $SEALER_PW>$PW_FILE
+      chmod 0600 $PW_FILE
+    fi
+
+    MINER_ADDRESS=$(geth --datadir $DATADIR --password $PW_FILE account import $KEY_FILE | cut -c 11-50)
+    ENABLE_MINER=1
+    rm $KEY_FILE
+    GETHARGS="${GETHARGS} --unlock "0" --password ${PW_FILE}"
   fi
-
-  MINER_ADDRESS=$(geth --datadir $DATADIR --password $PW_FILE account import $KEY_FILE | cut -c 11-50)
-  ENABLE_MINER=1
-  rm $KEY_FILE
-  GETHARGS="${GETHARGS} --unlock "0" --password ${PW_FILE}"
 fi
 
 if [ "$ENABLE_MINER" ]; then
@@ -78,11 +87,8 @@ if [ "$BOOTNODES" ]; then
   echo $BOOTNODES > $DATADIR/static-nodes.json
 fi
 
-
 geth --datadir $DATADIR \
         --identity $NODE_NAME \
-        --nodiscover \
         --rpc --rpcport $RPCPORT --rpcaddr $RPCHOST \
-        --networkid $NETWORKID \
         --port $GETHPORT \
         $GETHARGS 2>&1
