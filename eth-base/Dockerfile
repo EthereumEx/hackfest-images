@@ -1,18 +1,20 @@
 FROM ethereum/client-cpp
 
-RUN apt-get update
-RUN apt-get install -y apt-utils
-RUN apt-get install -y vim
-RUN apt-get install -y net-tools
-RUN apt-get -y install npm
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-RUN apt-get -y install git
-RUN apt-get -y install curl
-RUN apt-get -y install lsof
+# alpine sdk - curl, gcc, make, g++, git
+RUN apk add --update \
+  alpine-sdk \
+  bash \
+  vim \
+  python \
+  net-tools \
+  nodejs \
+  nodejs-npm \
+  lsof
+
 RUN npm install -g pm2
 
-RUN useradd -ms /bin/bash eth-node
-
+RUN addgroup -g 99 -S eth-node
+RUN adduser  -u 99 -D -S -G eth-node eth-node
 USER eth-node
 WORKDIR /home/eth-node
 
@@ -29,5 +31,4 @@ RUN git clone https://github.com/EthereumEx/eth-net-intelligence-api.git /home/e
 WORKDIR /home/eth-node/lib/ethStatsApi
 RUN npm install
 
-
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/sh"]
