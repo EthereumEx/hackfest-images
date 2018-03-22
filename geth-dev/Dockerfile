@@ -1,4 +1,4 @@
-FROM ethereum/client-go
+FROM ethereum/client-go:alltools-latest
 
 # alpine sdk - curl, gcc, make, g++, git
 RUN apk add --update \
@@ -11,7 +11,6 @@ RUN apk add --update \
   nodejs-npm \
   lsof
 
-RUN ln -s /geth /usr/bin/geth
 RUN npm install -g pm2
 
 ENTRYPOINT ["/bin/bash"]
