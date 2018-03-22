@@ -1,6 +1,7 @@
 FROM ethereumex/geth-dev
 
-RUN useradd -ms /bin/bash eth-node
+RUN addgroup -g 99 -S eth-node
+RUN adduser  -u 99 -D -S -G eth-node eth-node
 
 USER eth-node
 RUN pm2 install pm2-logrotate
