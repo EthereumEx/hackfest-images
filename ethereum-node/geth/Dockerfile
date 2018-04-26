@@ -1,5 +1,5 @@
 FROM ethereum/client-go:stable
-
+USER root
 RUN apk update
 RUN apk add bash
 RUN apk add curl
