@@ -77,8 +77,6 @@ if [ "$ENABLE_MINER" ]; then
   if [ "$MINER_THREADS" ]; then
     GETHARGS="$GETHARGS --minerthreads $MINER_THREADS"
   fi
-else
-  GETHARGS="$GETHARGS --fast"
 fi
 
 if [ "$BOOTNODES" ]; then
